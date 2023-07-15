@@ -7,7 +7,7 @@ openai.api_key = openai_api_key
 async def chat_command(interaction: discord.Interaction, text: str):
     prompt = text
     model_engine = "gpt-3.5-turbo"
-
+    await interaction.response.defer()
     try:
         # ChatGPTに質問を送信して回答を取得
         completion = openai.ChatCompletion.create(
@@ -27,7 +27,7 @@ async def chat_command(interaction: discord.Interaction, text: str):
         response = completion["choices"][0]["message"]["content"]
 
         # 回答を送信
-        await interaction.response.send_message(response)
+        await interaction.followup.send(response)
 
     except Exception as e:
         error_message = f"エラーが発生しました: {str(e)}"
